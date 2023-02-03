@@ -67,6 +67,17 @@ defmodule Anagram do
     true
   """
   def anagram?(string1, string2) do
+    word1 = String.to_charlist(string1)
+    word2 = String.to_charlist(string2)
+
+    result =
+      for a <- Enum.uniq(word1) do
+        c1 = Enum.count(word1, fn x -> x == a end)
+        c2 = Enum.count(word2, fn x -> x == a end)
+        c1 == c2
+      end
+
+    Enum.all?(result)
   end
 
   @doc """
@@ -84,6 +95,7 @@ defmodule Anagram do
     []
   """
   def filter_anagrams(word_list, anagram) do
+    Enum.filter(word_list, fn x -> anagram?(x, anagram) end)
   end
 end
 ```
