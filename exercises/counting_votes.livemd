@@ -80,6 +80,13 @@ defmodule Votes do
     0
   """
   def count(votes, vote) do
+    # Approach 1
+    Enum.reduce(votes, 0, fn x, acc -> if x == vote, do: acc + 1, else: acc end)
+
+    # Approach 2
+    # votes
+    #   |> Enum.filter(fn x -> x == vote end)
+    #   |> Enum.count()
   end
 end
 ```
@@ -110,6 +117,10 @@ style B1 fill:lightblue
 There are `3` dogs, `2` cats, and `1` bird.
 
 ```elixir
+
+```
+
+```elixir
 defmodule VoterTally do
   @doc """
   Determine the number of votes for each option received.
@@ -120,6 +131,9 @@ defmodule VoterTally do
     %{dog: 2, cat: 3, bird: 1}
   """
   def tally(votes) do
+    for a <- Enum.uniq([:dog, :dog, :cat, :cat, :cat, :bird]), into: %{} do
+      {a, Votes.count(votes, a)}
+    end
   end
 end
 ```
