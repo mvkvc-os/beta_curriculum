@@ -58,7 +58,27 @@ defmodule Book do
     iex> Book.search([%Book{title: "ABC"}], "a")
     [%Book{title: "ABC"}]
   """
+  @enforcekeys [:title]
+  defstruct @enforcekeys
+
   def search(books, query) do
+    # Attempt 2
+    Enum.filter(books, fn x ->
+      String.contains?(
+        String.downcase(x.title),
+        String.downcase(query)
+      )
+    end)
+
+    # Attempt 1
+    # list = for book <- books do
+    #   title = book.title |> String.downcase()
+    #   query = query |> String.downcase()
+    #   if String.contains?(title, query) do
+    #     book
+    #   end
+    # end
+    # Enum.filter(list, &(&1 != nil))
   end
 end
 ```
