@@ -47,6 +47,11 @@ end
 Implement the `Palindrome` module as documented below.
 
 ```elixir
+word = 'kayak'
+word == Enum.reverse(word)
+```
+
+```elixir
 defmodule Palindrome do
   @moduledoc """
   Documentation for `Palindrome`.
@@ -70,6 +75,8 @@ defmodule Palindrome do
     false
   """
   def palindrome?(string) do
+    word = String.to_charlist(string)
+    word == Enum.reverse(word)
   end
 end
 ```
