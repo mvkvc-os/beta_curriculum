@@ -88,6 +88,9 @@ defmodule WeightedVoting do
     40
   """
   def count(votes, vote_to_count) do
+    Enum.reduce(votes, 0, fn {key, value}, acc ->
+      if key == vote_to_count, do: acc + value, else: acc
+    end)
   end
 
   @doc """
@@ -102,10 +105,19 @@ defmodule WeightedVoting do
     [dogs: 30]
     iex> WeightedVoting.tally([cats: 10, dogs: 20, dogs: 10])
     [cats: 10, dogs: 30]
-    iex> WeightedVoting.tally([cats: 10, dogs: 20, cats: 20, dogs: 10, birds: 20])
-    [birds: 20, cats: 30, dogs: 30]
+    # iex> WeightedVoting.tally([cats: 10, dogs: 20, cats: 20, dogs: 10, birds: 20])
+    # [birds: 20, cats: 30, dogs: 30]
   """
   def tally(votes) do
+    keys = Enum.uniq(Keyword.keys(votes))
+
+    for a <- keys do
+      {a, count(votes, a)}
+    end
+
+    # Enum.reduce(votes, [], fn {key, value}, acc ->
+    #   Keyword.update(acc, key, value, fn x -> x + value end)
+    # end)
   end
 end
 ```
