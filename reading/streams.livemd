@@ -218,7 +218,18 @@ In the Elixir cell below, try refactoring this code using the [Stream](https://h
 ```
 
 ```elixir
+1..100
+|> Enum.map(fn each -> div(each, 2) end)
+|> Enum.map(fn each -> each * 3 end)
+|> Enum.filter(fn each -> rem(each, 2) === 0 end)
+```
 
+```elixir
+1..100
+|> Stream.map(fn each -> div(each, 2) end)
+|> Stream.map(fn each -> each * 3 end)
+|> Stream.filter(fn each -> rem(each, 2) === 0 end)
+|> Enum.to_list()
 ```
 
 ## Stream Gotchas
@@ -418,7 +429,15 @@ end)
 </details>
 
 ```elixir
+start_value = 5_348_958_345_938_495_987_279
 
+seq =
+  start_value
+  |> Stream.iterate(fn x -> if rem(x, 2) == 0, do: round(x / 2), else: x * 3 + 1 end)
+  |> Enum.take_while(fn x -> x > 1 end)
+
+IO.inspect(length(seq), label: "Sequence length")
+IO.inspect(Enum.take(seq, -2), label: "Ending sequence")
 ```
 
 ### Stream.unfold/2
@@ -479,7 +498,11 @@ end)
 </details>
 
 ```elixir
-
+1
+|> Stream.unfold(fn x ->
+  {x ** 3, x + 1}
+end)
+|> Enum.take(4)
 ```
 
 ## Mark As Completed
