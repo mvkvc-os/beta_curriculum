@@ -18,34 +18,37 @@ defmodule Games.Wordle do
       IO.puts("Enter a word with length: #{String.length(word)}")
     end
 
-    guess = IO.gets("Guess: ") |> String.trim()
+    input = IO.gets("W Guess: ") |> String.trim()
+    if input != "stop" do
+      guess = input
 
-    if !Enum.member?(guess_list, guess) do
-      IO.puts("Invalid guess word")
-      play([word: word, guess_list: guess_list, lives: lives])
-    end
-
-    result =
-      case feedback(word, guess) do
-        {:ok, result} ->
-          result
-
-        {:error, error} ->
-          IO.puts(error)
-          play([word: word, guess_list: guess_list, lives: lives])
+      if !Enum.member?(guess_list, guess) do
+        IO.puts("Invalid guess word")
+        play([word: word, guess_list: guess_list, lives: lives])
       end
 
-    cond do
-      guess == word ->
-        IO.puts("You win!")
+      result =
+        case feedback(word, guess) do
+          {:ok, result} ->
+            result
 
-      lives == 1 ->
-        IO.puts("You lose! The word was #{word}")
+          {:error, error} ->
+            IO.puts(error)
+            play([word: word, guess_list: guess_list, lives: lives])
+        end
 
-      true ->
-        IO.puts("You have #{lives - 1} lives left")
-        IO.puts(Enum.join(result, " "))
-        play([word: word, guess_list: guess_list, lives: lives - 1])
+      cond do
+        guess == word ->
+          IO.puts("You win!")
+
+        lives == 1 ->
+          IO.puts("You lose! The word was #{word}")
+
+        true ->
+          IO.puts("You have #{lives - 1} lives left")
+          IO.puts(Enum.join(result, " "))
+          play([word: word, guess_list: guess_list, lives: lives - 1])
+      end
     end
   end
 
