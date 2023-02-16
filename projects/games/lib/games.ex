@@ -1,0 +1,2 @@
+defmodule Games do
+end

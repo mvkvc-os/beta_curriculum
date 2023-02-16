@@ -78,6 +78,17 @@ Test and implement a `Math` module. Include at least two assertions for each hap
 
 ```elixir
 defmodule Math do
+  def add(x, y) do
+    case {x, y} do
+      {Integer, Integer} -> x + y
+      {} -> x <> y
+      {} -> x ++ y
+    end
+  end
+
+  def subtract(x, y) do
+    x + y 
+  end
 end
 
 ExUnit.start(auto_run: false)
@@ -85,7 +96,34 @@ ExUnit.start(auto_run: false)
 defmodule MathTest do
   use ExUnit.Case
 
-  # Tests Go Here
+  describe "add" do
+    test "string+string" do
+      assert Math.add("a", "b") == "ab"
+    end
+
+    test "list+list" do
+      assert Math.add([1, 2], ["a"]) == [1, 2, "a"]
+    end
+
+    test "int+int" do
+      assert Math.add(1, 2) == 3
+    end
+  end
+
+  describe "subtract" do
+    test "string-string" do
+      assert Math.subtract("ab", "a") == "b"
+    end
+
+    test "list-list" do
+      assert Math.subtract([1, 2], [1]) == [2]
+    end
+
+    test "int-int" do
+      assert Math.subtract(6, 3) == 3
+    end
+  end
+  end
 end
 
 ExUnit.run()
