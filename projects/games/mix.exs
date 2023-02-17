@@ -8,22 +8,37 @@ defmodule Games.MixProject do
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      escript: [main_module: Games.CLI]
+      docs: docs(),
+      escript: [main_module: Games.CLI],
+      aliases: aliases()
     ]
   end
 
-  # Run "mix help compile.app" to learn about applications.
+  defp docs do
+    [
+      # The main page in the doc
+      main: "readme",
+      extras: ["README.md"]
+    ]
+  end
+
   def application do
     [
       extra_applications: [:logger]
     ]
   end
 
-  # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
-      {:credo, "~> 1.6", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.0", only: :dev, runtime: false},
+      {:ex_doc, "~> 0.27", only: :dev, runtime: false}
+    ]
+  end
+
+  defp aliases do
+    [
+      docs: ["docs --formatter html"]
     ]
   end
 end

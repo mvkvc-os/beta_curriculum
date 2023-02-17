@@ -1,3 +1,5 @@
-.elixir_ls
-.history
+**/.idea/
+**/.vscode/
+**/.elixir_ls
+**/.history
 /todo
