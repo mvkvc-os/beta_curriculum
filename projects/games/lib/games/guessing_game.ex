@@ -44,6 +44,7 @@ defmodule Games.GuessingGame do
 
   defp valid_input?(guess) do
     parsed = Integer.parse(guess)
+
     cond do
       parsed == :error ->
         IO.puts("Invalid guess: must be an integer.")

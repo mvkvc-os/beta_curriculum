@@ -6,7 +6,8 @@ defmodule Games.CLI do
   @doc """
   Start the CLI.
   """
-  def main(_args) do
+  def start(_, _) do
+    #    args = Burrito.Util.Args.get_arguments() # If arguments needed
     Games.Menu.display()
   end
 end

@@ -16,6 +16,7 @@ defmodule Games.RockPaperScissors do
     guess = get_valid_input("RPS Guess: ", &valid_input?(&1))
 
     IO.inspect(guess)
+
     if guess != "stop" do
       guess = String.to_existing_atom(guess)
       opponent = Enum.random([:rock, :paper, :scissors])
@@ -42,7 +43,9 @@ defmodule Games.RockPaperScissors do
 
   defp valid_input?(input) do
     cond do
-      input in ["rock", "paper", "scissors"] -> true
+      input in ["rock", "paper", "scissors"] ->
+        true
+
       true ->
         IO.puts("Input must be rock, paper or scissors.")
         false

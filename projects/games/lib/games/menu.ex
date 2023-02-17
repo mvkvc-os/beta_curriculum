@@ -25,10 +25,13 @@ Select a game:
       end
 
       display()
+    else
+      IO.puts("Goodbye!")
+      System.halt(0)
     end
   end
 
   def valid_input?(input) do
-      input in ["1", "2", "3"]
+    input in ["1", "2", "3"]
   end
 end

@@ -16,7 +16,6 @@ defmodule Games.MixProject do
 
   defp docs do
     [
-      # The main page in the doc
       main: "readme",
       extras: ["README.md"]
     ]
@@ -24,12 +23,29 @@ defmodule Games.MixProject do
 
   def application do
     [
+      mod: {Games.CLI, []},
       extra_applications: [:logger]
+    ]
+  end
+
+  def releases do
+    [
+      games: [
+        steps: [:assemble, &Burrito.wrap/1],
+        burrito: [
+          targets: [
+            macos: [os: :darwin, cpu: :x86_64],
+            linux: [os: :linux, cpu: :x86_64],
+            windows: [os: :windows, cpu: :x86_64]
+          ]
+        ]
+      ]
     ]
   end
 
   defp deps do
     [
+      {:burrito, github: "burrito-elixir/burrito"},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0", only: :dev, runtime: false},
       {:ex_doc, "~> 0.27", only: :dev, runtime: false}
