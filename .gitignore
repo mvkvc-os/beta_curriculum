@@ -1,5 +1,4 @@
-**/.idea/
-**/.vscode/
-**/.elixir_ls
-**/.history
+.elixir_ls/
+.history/
+.vscode/
 /todo

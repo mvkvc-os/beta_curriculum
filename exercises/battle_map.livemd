@@ -113,6 +113,12 @@ end
 Create implementations for the `Character` protocol as documented below. We've provided a full suite of tests for you.
 
 ```elixir
+defmodule Archer do
+  defstruct []
+end
+```
+
+```elixir
 defprotocol Character do
   @doc """
 
@@ -128,6 +134,34 @@ defprotocol Character do
     true
   """
   def can_attack?(character, origin, target)
+end
+
+defimpl Character, for: Barbarian do
+  def can_attack?(_character, origin, target) do
+    {ox, oy} = origin
+    {tx, ty} = target
+
+    abs(ty - oy) <= 2 and abs(tx - ox) <= 2
+  end
+end
+
+defimpl Character, for: Wizard do
+  def can_attack?(_character, origin, target) do
+    {ox, oy} = origin
+    {tx, ty} = target
+
+    ox == tx or oy == ty or abs(ox - tx) == abs(oy - ty)
+  end
+end
+
+defimpl Character, for: Archer do
+  def can_attack?(_character, origin, target) do
+    {ox, oy} = origin
+    {tx, ty} = target
+
+    radius = 3
+    abs(ox - tx) == radius or abs(oy - ty) == radius
+  end
 end
 
 ExUnit.start(auto_run: false)
@@ -174,6 +208,18 @@ defmodule CharacterTests do
       refute Character.can_attack?(%Wizard{}, {4, 4}, {6, 3})
     end
   end
+
+  describe "Archer" do
+    test "can attack" do
+      assert Character.can_attack?(%Archer{}, {4, 4}, {5, 7})
+      assert Character.can_attack?(%Archer{}, {4, 4}, {1, 1})
+    end
+
+    test "cannot attack invalid squares" do
+      refute Character.can_attack?(%Archer{}, {4, 4}, {6, 5})
+      refute Character.can_attack?(%Archer{}, {4, 4}, {2, 5})
+    end
+  end
 end
 
 ExUnit.run()
@@ -196,10 +242,6 @@ true
 ```
 
 Implement your custom character below.
-
-```elixir
-
-```
 
 ## Mark As Completed
 

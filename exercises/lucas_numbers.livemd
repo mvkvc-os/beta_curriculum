@@ -117,8 +117,9 @@ defmodule Lucas do
     iex> Lucas.number(20)
     15127
   """
-  def number(n) do
-  end
+  def number(0), do: 2
+  def number(1), do: 1
+  def number(n), do: number(n - 1) + number(n - 2)
 
   @doc """
   Generate a list of lucas numbers with the given length.
@@ -142,6 +143,7 @@ defmodule Lucas do
   """
 
   def sequence(length) do
+    Enum.map(0..(length - 1), &number(&1))
   end
 end
 ```

@@ -118,6 +118,8 @@ defmodule MyModule do
     Process.sleep(1000)
   end
 end
+
+result = :timer.tc(fn -> MyModule.slow_function() end)
 ```
 
 ## Benchee

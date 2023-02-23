@@ -46,7 +46,9 @@ end
 Enter your solution below.
 
 ```elixir
-
+defmodule Character do
+  defstruct [:strength, :dexterity, :constitution, :wisdom, :intelligence, :charisma]
+end
 ```
 
 Our game has `Consumable` items which modify a character's base stats. For example, we'll have
@@ -179,7 +181,45 @@ end
 </details>
 
 ```elixir
+defprotocol Consumable do
+  def consume(potion, character)
+end
 
+defimpl Consumable, for: StrengthPotion do
+  def consume(potion, character) do
+    %{character | strength: character.strength + potion.level}
+  end
+end
+
+defimpl Consumable, for: DexterityPotion do
+  def consume(potion, character) do
+    %{character | dexterity: character.dexterity + potion.level}
+  end
+end
+
+defimpl Consumable, for: ConstitutionPotion do
+  def consume(potion, character) do
+    %{character | constitution: character.constitution + potion.level}
+  end
+end
+
+defimpl Consumable, for: WisdomPotion do
+  def consume(potion, character) do
+    %{character | wisdom: character.wisdom + potion.level}
+  end
+end
+
+defimpl Consumable, for: IntelligencePotion do
+  def consume(potion, character) do
+    %{character | intelligence: character.intelligence + potion.level}
+  end
+end
+
+defimpl Consumable, for: CharismaPotion do
+  def consume(potion, character) do
+    %{character | charisma: character.charisma + potion.level}
+  end
+end
 ```
 
 ## Mark As Completed

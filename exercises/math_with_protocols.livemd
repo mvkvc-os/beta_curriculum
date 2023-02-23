@@ -162,6 +162,36 @@ defprotocol Math do
   """
   def subtract(value1, value2)
 end
+
+defimpl Math, for: Integer do
+  def add(int1, int2) do
+    int1 + int2
+  end
+
+  def subtract(int1, int2) do
+    int1 - int2
+  end
+end
+
+defimpl Math, for: BitString do
+  def add(str1, str2) do
+    to_string(String.to_charlist(str1) ++ String.to_charlist(str2))
+  end
+
+  def subtract(str1, str2) do
+    to_string(String.to_charlist(str1) -- String.to_charlist(str2))
+  end
+end
+
+defimpl Math, for: List do
+  def add(lst1, lst2) do
+    lst1 ++ lst2
+  end
+
+  def subtract(lst1, lst2) do
+    lst1 -- lst2
+  end
+end
 ```
 
 ## Mark As Completed

@@ -65,9 +65,23 @@ defmodule ReplaceNils do
   replace nil values in the first list with values from the second list in the same position.
   """
   def replace(input1, input2) do
-    nil
   end
 end
+```
+
+```elixir
+ReplaceNils.replace([nil, :a, nil], [1, 2, 3])
+```
+
+```elixir
+x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+y = [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]
+result = ReplaceNils.replace(x, y)
+
+# Testcase 2:
+#   Input1:   [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]
+#   Input2:   [:a, :b, :c, :d, :e, :f, :g, :h, :i, :j]
+#   Expected: [:a, :b, :c, :d, :e, :f, :g, :h, :i, :j]
 ```
 
 Here are some additional test data to think about:
