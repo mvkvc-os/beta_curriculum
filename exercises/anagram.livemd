@@ -19,15 +19,15 @@ Mix.install([
 Two words that contain all the same letters are anagrams.
 For example **bored** and **robed** are anagrams.
 
-* Create a function `anagram?/2` which determines if two strings are anagrams.
-* Create a function `filter_anagrams/2` which filters a list based on if they are anagrams of a provided string.
+- Create a function `anagram?/2` which determines if two strings are anagrams.
+- Create a function `filter_anagrams/2` which filters a list based on if they are anagrams of a provided string.
 
 <details style="background-color: lightgreen; padding: 12px">
 <summary>Solution Example</summary>
 
 ```elixir
 defmodule Anagram do
-  def anagram?(string1, string2) do
+  def anagram?(word, possible_anagram) do
     sort_string(word) == sort_string(possible_anagram)
   end
 
@@ -191,6 +191,6 @@ If you are interested in joining the next academy cohort, [sign up here](https:/
 
 ## Up Next
 
-| Previous                                     | Next                                                     |
+| Previous                                     |                                                     Next |
 | -------------------------------------------- | -------------------------------------------------------: |
 | [Palindrome](../exercises/palindrome.livemd) | [Animal Generator](../exercises/animal_generator.livemd) |
