@@ -363,6 +363,7 @@ defmodule Counter do
 
     receive do
       :increment -> loop(state + 1)
+      :decrement -> loop(state - 1)
     end
   end
 end
@@ -373,7 +374,7 @@ counter_process = spawn(fn -> Counter.loop() end)
 You should be able to send a `:decrement` message to a spawned `Counter`. Uncomment and evaluate the code below to test your solution.
 
 ```elixir
-# send(counter_process, :decrement)
+send(counter_process, :decrement)
 ```
 
 ## Mark As Completed

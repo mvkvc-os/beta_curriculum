@@ -212,6 +212,21 @@ defmodule StreamProducts do
     [%{name: "Laptop", category: :tech, price: 100}]
   """
   def filter(products, filters) do
+    name = Keyword.get(filters, :name, "")
+    min = Keyword.get(filters, :min)
+    max = Keyword.get(filters, :max)
+    category = Keyword.get(filters, :category)
+
+    products
+    |> Stream.filter(fn x ->
+      match_name = String.contains?(String.downcase(x.name), String.downcase(name))
+      match_min = !min or x.price >= min
+      match_max = !max or x.price <= max
+      category = !category or x.category == category
+
+      match_name and match_min and match_max and category
+    end)
+    |> Enum.to_list()
   end
 end
 ```

@@ -62,7 +62,16 @@ defmodule TodoList do
       iex> TodoList.list()
       []
   """
-  def list do
+  def list(path \\ "todo") do
+    path
+    |> File.read!()
+    |> :erlang.binary_to_term()
+  end
+
+  def save(data, path \\ "todo") do
+    data
+    |> :erlang.term_to_binary()
+    |> (fn data -> File.write!(path, data) end).()
   end
 
   @doc """
@@ -80,6 +89,10 @@ defmodule TodoList do
       ["task 2", "task 1"]
   """
   def add(item) do
+    todo = list()
+    todo = [item | todo]
+    save(todo)
+    todo
   end
 
   @doc """
@@ -93,6 +106,10 @@ defmodule TodoList do
       []
   """
   def complete(item) do
+    todo = list()
+    todo = List.delete(todo, item)
+    save(todo)
+    todo
   end
 end
 ```

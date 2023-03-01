@@ -135,7 +135,20 @@ end
 </details>
 
 ```elixir
+defmodule Journal do
+  use GenServer
 
+  @impl true
+  def init(_opts) do
+    {:ok, []}
+  end
+
+  @impl true
+  def handle_cast({:add_entry, entry}, state) do
+    new_state = [entry | state]
+    {:noreply, new_state}
+  end
+end
 ```
 
 ## Process
@@ -294,7 +307,31 @@ end
 </details>
 
 ```elixir
+defmodule DecrementingCounter do
+  use GenServer
 
+  @impl true
+  def init(_opts) do
+    schedule_decrement()
+    {:ok, 0}
+  end
+
+  @impl true
+  def handle_info(:decrement, state) do
+    schedule_decrement()
+    {:noreply, state - 1}
+  end
+
+  defp schedule_decrement(time \\ 2000) do
+    Process.send_after(self(), :decrement, time)
+  end
+end
+
+{:ok, pid} = GenServer.start_link(DecrementingCounter, [])
+```
+
+```elixir
+:sys.get_state(pid)
 ```
 
 ## Further Reading

@@ -85,6 +85,16 @@ defmodule Document do
       3
   """
   def word_count(file_name) do
+    file_name
+    |> File.read!()
+    |> IO.inspect()
+    |> String.replace("\n", " ")
+    |> IO.inspect()
+    |> String.split(" ")
+    |> IO.inspect()
+    |> Enum.map(fn x -> String.trim(x) end)
+    |> IO.inspect()
+    |> Enum.count()
   end
 
   @doc ~S"""

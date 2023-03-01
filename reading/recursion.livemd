@@ -186,6 +186,27 @@ end
 RecursiveSum.sum([1, 2, 3], 0)
 ```
 
+```elixir
+def tail?([]) do: true
+def tail?(l) do
+  tail?(hd(l)) 
+end
+```
+
+```elixir
+defmodule Fib2 do
+  def recur(1, l), do: l
+  def recur(n, l), do: recur(n - 1, [hd(l) + hd(tl(l)) | l])
+
+  def of(n) do
+    l = [1, 0]
+    recur(n, l)
+  end
+end
+
+Fib2.of(3)
+```
+
 We enumerate through the list by recursively calling `sum/2` on the tail of the list and building
 an accumulator. In this case, the initial accumulator is `0`.
 

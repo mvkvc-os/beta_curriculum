@@ -156,6 +156,8 @@ defmodule Pokemon do
     %Pokemon{name: "Charmander", type: :fire, health: 20, attack: 5}
   """
   use GenServer
+  @enforcekeys [:health, :attack, :type, :name]
+  defstruct @enforcekeys
 
   @doc """
   Start the Pokemon GenServer.
@@ -164,6 +166,8 @@ defmodule Pokemon do
       iex> {:ok, pokemon} = Pokemon.start_link([pokemon: %Pokemon{name: "Charmander", type: :fire}])
   """
   def start_link(opts \\ []) do
+    {pokemon, opts} = Keyword.pop!(opts, :pokemon)
+    GenServer.start_link(__MODULE__, pokemon, opts)
   end
 
   @doc """
