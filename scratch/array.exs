@@ -1,32 +1,22 @@
-defmodule Tensor do
+defmodule TwoDArray do
   defstruct data: [], shape: []
 
-  def shape(data) do
-  end
-
-  def uniform?(data) do
-  end
-
-  def new(), do: %Tensor{}
-  def new(data), do: %Tensor{data: data, shape: shape(data)}
-
-  defimpl Enumerable, for: Tensor do
-    def count(tensor), do: tensor.shape |> Enum.reduce(1, &*/2)
-
-    def reduce(tensor, acc, fun) do
-      Enum.reduce(tensor.data, acc, fun)
-    end
-
-    def member?(tensor, value) do
-      Enum.member?(tensor.data, value)
-    end
-
-    def nth(tensor, n) do
-      Enum.reduce(1..n, tensor.data, fn x, acc -> Enum.at(acc, x) end)
-    end
+  def new(data) do
+    shape = [length(data), length(Enum.at(data, 0))]
+    %__MODULE__{data: data, shape: shape}
   end
 end
 
-x = [[1, 2], 2, 3]
-IO.inspect(Tensor.new([1, 2, 3]))
-IO.inspect(Tensor.depth(x))
+defimpl Enumerable, for: TwoDArray do
+  def count(enumerable) do
+  end
+
+  def member?(enumerable, element) do
+  end
+
+  def reduce(enumerable, acc, fun) do
+  end
+
+  def slice(enumerable) do
+  end
+end

@@ -1,111 +1,314 @@
 # Enums
 
-## Links
+## References
 
-https://hexdocs.pm/elixir/Enumerable.html
-
-https://hexdocs.pm/elixir/Enum.html
+* https://hexdocs.pm/elixir/Protocol.html
+* https://hexdocs.pm/elixir/Enumerable.html
+* https://hexdocs.pm/elixir/Enum.html
 
 ## Background
 
-What is a collection?
+### What is a collection?
 
-- A type that groups related data into a single item ex. List, Map, Array, Set etc.
-
-<!-- livebook:{"break_markdown":true} -->
-
-What is an Enumerable?
-
-- A collection that implements the enumerable protocol as defined in the link above
-- Most but not all collections in Elixir implement the protocol ex. structs
+A collection is a type that groups related data into a single item. Examples of collections in Elixir include lists, maps, and mapsets.
 
 <!-- livebook:{"break_markdown":true} -->
 
-What is a protocol?
+### What is an enumerable?
 
-- A protocol is a specification of what methods an item needs to have in order to become an implementation of the protocol ex. a list is an implementation of the Enumerable protocol
-- This is used by functions to define behaviour based on if the data type implements a specific protocol and types
-
-<!-- livebook:{"break_markdown":true} -->
-
-What is the enumerable protocol?
-
-- A set of functions that are required to be considered an implementation of the type Enumerable
-- The functions
-
-ADD FUNCTION DESCRPTIONS
-
-- count/1
-- member?/2
-- reduce/3
-- slice/1
+An enumerable is a collection that implements the Enumerable protocol as defined in the documentation. Most, but not all, collections in Elixir implement this protocol (ex. tuples).
 
 <!-- livebook:{"break_markdown":true} -->
 
-Why would we implement this protocol?
+### What is a protocol?
 
-- After implmeneting this protocol you can use all the functions in the Enum module as implementing the protocol means that the functions that Enum functions rely on are implemented
-- Can use methods such as
-- map
-- reduce
-- filter
+A protocol is a specification of common functions for modules such that when implemented they can be classified by the protocol. For example, a mapset has an implementation of the Enumerable protocol. Any function that expects an argument implementing the Enumerable protocol will work if the protocol has been implemented for that module.
 
 <!-- livebook:{"break_markdown":true} -->
 
-Lets create an example!
+### What is the enumerable protocol?
+
+The Enumerable protocol is a set of functions that are required to be considered an implementation of the Enumerable type. The functions and their related documentation from https://hexdocs.pm/elixir/Enumerable.html are:
+
+<!-- livebook:{"break_markdown":true} -->
+
+#### reduce/3
+
+https://hexdocs.pm/elixir/Enumerable.html#reduce/3
+
+Reduces the `enumerable` into an element.
+
+Most of the operations in `Enum` are implemented in terms of reduce.
+
+This function should apply the given `t:reducer/0` function to each
+element in the `enumerable` and proceed as expected by the returned
+accumulator.
+
+See the documentation of the types `t:result/0` and `t:acc/0` for
+more information.
+
+<!-- livebook:{"break_markdown":true} -->
+
+#### count/1
+
+https://hexdocs.pm/elixir/Enumerable.html#count/1
+
+Retrieves the number of elements in the `enumerable`.
+
+It should return `{:ok, count}` if you can count the number of elements
+in `enumerable` in a faster way than fully traversing it.
+
+Otherwise it should return `{:error, __MODULE__}` and a default algorithm
+built on top of `reduce/3` that runs in linear time will be used.
+
+<!-- livebook:{"break_markdown":true} -->
+
+#### member?/2
+
+https://hexdocs.pm/elixir/Enumerable.html#member?/2
+
+Checks if an `element` exists within the `enumerable`.
+
+It should return `{:ok, boolean}` if you can check the membership of a
+given element in `enumerable` with `===/2` without traversing the whole
+of it.
+
+Otherwise it should return `{:error, __MODULE__}` and a default algorithm
+built on top of `reduce/3` that runs in linear time will be used.
+
+When called outside guards, the [`in`](`in/2`) and [`not in`](`in/2`)
+operators work by using this function.
+
+<!-- livebook:{"break_markdown":true} -->
+
+#### slice/1
+
+https://hexdocs.pm/elixir/Enumerable.html#slice/1
+
+Returns a function that slices the data structure contiguously.
+  It should return either:
+
+* `{:ok, size, slicing_fun}` - if the `enumerable` has a known bound and can access a position in the `enumerable` without traversing all previous elements. The `slicing_fun` will receive a `start` position, the `amount` of elements to fetch, and a `step`.
+
+* `{:ok, size, to_list_fun}` - if the `enumerable` has a known bound and can access a position in the `enumerable` by first converting it to a list via `to_list_fun`.
+
+* `{:error, __MODULE__}` - the enumerable cannot be sliced efficiently and a default algorithm built on top of `reduce/3` that runs in linear time will be used.
+
+<!-- livebook:{"break_markdown":true} -->
+
+### Why would we implement this protocol?
+
+Implementing the protocol means that the functions from the Enum module are available, and you can use methods such as:
+
+* `Enum.map/2`: https://hexdocs.pm/elixir/Enum.html#map/2
+* `Enum.reduce/2`: https://hexdocs.pm/elixir/Enum.html#reduce/2
+* `Enum.filter/2`: https://hexdocs.pm/elixir/Enum.html#filter/2
+
+Along with many others including versions of some of the above with different arity.
+
+## Examples
+
+Let's look in the Elixir source to see how this is implemented for the List and Map datatypes.
+
+<!-- livebook:{"force_markdown":true} -->
+
+```elixir
+defimpl Enumerable, for: List do
+  def count(list), do: {:ok, length(list)}
+
+  def member?([], _value), do: {:ok, false}
+  def member?(_list, _value), do: {:error, __MODULE__}
+
+  def slice([]), do: {:ok, 0, fn _, _, _ -> [] end}
+  def slice(_list), do: {:error, __MODULE__}
+
+  def reduce(_list, {:halt, acc}, _fun), do: {:halted, acc}
+  def reduce(list, {:suspend, acc}, fun), do: {:suspended, acc, &reduce(list, &1, fun)}
+  def reduce([], {:cont, acc}, _fun), do: {:done, acc}
+  def reduce([head | tail], {:cont, acc}, fun), do: reduce(tail, fun.(head, acc), fun)
+end
+
+defimpl Enumerable, for: Map do
+  def count(map) do
+    {:ok, map_size(map)}
+  end
+
+  def member?(map, {key, value}) do
+    {:ok, match?(%{^key => ^value}, map)}
+  end
+
+  def member?(_map, _other) do
+    {:ok, false}
+  end
+
+  def slice(map) do
+    size = map_size(map)
+    {:ok, size, &:maps.to_list/1}
+  end
+
+  def reduce(map, acc, fun) do
+    Enumerable.List.reduce(:maps.to_list(map), acc, fun)
+  end
+end
+```
+
+<!-- livebook:{"break_markdown":true} -->
+
+The values `:halt`, `:suspend`, `:cont` are tags for the accumulator result to define behaviour when using reduce operations in Enum module functions. For more information view the documentation for the `acc()`: https://hexdocs.pm/elixir/Enumerable.html#t:acc/0 and `result()`: https://hexdocs.pm/elixir/Enumerable.html#t:result/0 types.
+
+<!-- livebook:{"break_markdown":true} -->
+
+Converting the collection to a list type is a common method used to implement the enumerable protocol. Let's try using an Enum function with a map and a mapset:
+
+```elixir
+map = %{a: 1, b: 2, c: 3}
+Enum.filter(map, fn {_key, value} -> value > 1 end)
+```
+
+```elixir
+mapset = MapSet.new([1, :two, {"three"}])
+Enum.filter(map, fn {_key, value} -> value != 1 end)
+```
+
+Now let's create our own data types called `TwoDArray`.
 
 ```elixir
 defmodule TwoDArray do
   defstruct data: [], shape: []
+
+  def new(data) do
+    shape = [length(data), length(Enum.at(data, 0))]
+    %__MODULE__{data: data, shape: shape}
+  end
 end
 ```
 
 ```elixir
-# Show using Enum with impl fails
-Enum.map()
+twodarray = TwoDArray.new([[1, 2], [3, 4]])
 ```
+
+We can see that using Enum module functions with our TwoDArray struct fails:
+
+```elixir
+Enum.map(twodarray, &(&1 + 1))
+```
+
+What happens if we try to declare TwoDArray as an implementation without defining the necessary functions?
 
 ```elixir
 defimpl Enumerable, for: TwoDArray do
-  def count() do
+end
+
+Enum.map(twodarray, &(&1 + 1))
+```
+
+Our module still compiles but we get warnings because using functions from the Enum module will fail as the necessary implementation functions have not been created.
+
+<!-- livebook:{"break_markdown":true} -->
+
+Now let's actually implement the functions necessary to make `TwoDArray` an implementation of the Enumerable protocol. To keep the example simple we are going to flatten our array into a list and use functions on the Enum module. However I recommend looking at the Elixir source to see how this is implemeted for common data structures:
+
+```elixir
+defimpl Enumerable, for: TwoDArray do
+  def count(enumerable) do
+    count =
+      enumerable.data
+      |> flatten()
+      |> Enum.count()
+
+    {:ok, count}
   end
 
-  def member?() do
+  def member?(enumerable, element) do
+    member =
+      enumerable.data
+      |> flatten()
+      |> Enum.member?(element)
+
+    {:ok, member}
   end
 
-  def reduce() do
+  def slice(enumerable) do
+    size = length(flatten(enumerable.data))
+    {:ok, size, &List.flatten/1}
   end
 
-  def slice do
+  def reduce(enumerable, acc, fun) do
+    Enumerable.List.reduce(flatten(enumerable.data), acc, fun)
+  end
+
+  defp flatten(nested_list) do
+    nested_list |> List.flatten()
   end
 end
 ```
 
-```elixir
-# Now show it works
-Enum.map()
-```
-
-Other examples
+Let's see if it worked!
 
 ```elixir
-Enum.filter()
+Enum.filter(twodarray, &(&1 > 1))
 ```
 
 ```elixir
-Enum.map()
+Enum.map(twodarray, &(&1 + 1))
 ```
 
 ```elixir
-Enum.reduce()
+Enum.reduce(twodarray, 0, fn x, acc -> acc + x end)
 ```
 
-Go nuts at https://hexdocs.pm/elixir/Enum.html#content
+## Bonus
+
+Here are some more interesting concepts related to this presentation.
 
 <!-- livebook:{"break_markdown":true} -->
 
-Bounus: Can we use streams with our new Enumerable?
+### Protocols
+
+You can define an implementation for the `Any` protocol and annotate with `@fallback_to_any true`, giving any module that doesn't have an implementation of Size the same default implementation. Let's test this with the example given in: https://elixir-lang.org/getting-started/protocols.html.
 
 ```elixir
-# Stream example
+defprotocol Size do
+  @doc "Calculates the size (and not the length!) of a data structure"
+  @fallback_to_any true
+  def size(data)
+end
+```
+
+```elixir
+defimpl Size, for: Any do
+  def size(_), do: 0
+end
+```
+
+```elixir
+defmodule OtherUser do
+  defstruct [:name, :age]
+end
+```
+
+```elixir
+Size.size(OtherUser)
+```
+
+### Streams
+
+<!-- livebook:{"break_markdown":true} -->
+
+Streams are collections that are lazily loaded (meaning elements are loaded one by one and not all at once). If you define an implementation of Enumerable for your data type, you can use the stream module as well. Let's try it with our `TwoDArray`.
+
+```elixir
+Stream.map(twodarray, &(&1 + 1))
+```
+
+You can chain stream operations returning a new stream.
+
+```elixir
+Stream.map(twodarray, &(&1 + 1)) |> Stream.filter(&(&1 > 2))
+```
+
+When you want to output a non-lazy (fully in memory) Enumerable, all you need to do is pass the stream to any function in the Enum module ex. `Enum.to_list/1` or `Enum.take/2`.
+
+```elixir
+Stream.map(twodarray, &(&1 + 1)) |> Stream.filter(&(&1 > 1)) |> Enum.take(3)
 ```
