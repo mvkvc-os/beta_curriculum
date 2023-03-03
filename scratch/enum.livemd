@@ -1,0 +1,111 @@
+# Enums
+
+## Links
+
+https://hexdocs.pm/elixir/Enumerable.html
+
+https://hexdocs.pm/elixir/Enum.html
+
+## Background
+
+What is a collection?
+
+- A type that groups related data into a single item ex. List, Map, Array, Set etc.
+
+<!-- livebook:{"break_markdown":true} -->
+
+What is an Enumerable?
+
+- A collection that implements the enumerable protocol as defined in the link above
+- Most but not all collections in Elixir implement the protocol ex. structs
+
+<!-- livebook:{"break_markdown":true} -->
+
+What is a protocol?
+
+- A protocol is a specification of what methods an item needs to have in order to become an implementation of the protocol ex. a list is an implementation of the Enumerable protocol
+- This is used by functions to define behaviour based on if the data type implements a specific protocol and types
+
+<!-- livebook:{"break_markdown":true} -->
+
+What is the enumerable protocol?
+
+- A set of functions that are required to be considered an implementation of the type Enumerable
+- The functions
+
+ADD FUNCTION DESCRPTIONS
+
+- count/1
+- member?/2
+- reduce/3
+- slice/1
+
+<!-- livebook:{"break_markdown":true} -->
+
+Why would we implement this protocol?
+
+- After implmeneting this protocol you can use all the functions in the Enum module as implementing the protocol means that the functions that Enum functions rely on are implemented
+- Can use methods such as
+- map
+- reduce
+- filter
+
+<!-- livebook:{"break_markdown":true} -->
+
+Lets create an example!
+
+```elixir
+defmodule TwoDArray do
+  defstruct data: [], shape: []
+end
+```
+
+```elixir
+# Show using Enum with impl fails
+Enum.map()
+```
+
+```elixir
+defimpl Enumerable, for: TwoDArray do
+  def count() do
+  end
+
+  def member?() do
+  end
+
+  def reduce() do
+  end
+
+  def slice do
+  end
+end
+```
+
+```elixir
+# Now show it works
+Enum.map()
+```
+
+Other examples
+
+```elixir
+Enum.filter()
+```
+
+```elixir
+Enum.map()
+```
+
+```elixir
+Enum.reduce()
+```
+
+Go nuts at https://hexdocs.pm/elixir/Enum.html#content
+
+<!-- livebook:{"break_markdown":true} -->
+
+Bounus: Can we use streams with our new Enumerable?
+
+```elixir
+# Stream example
+```
