@@ -127,9 +127,8 @@ defmodule Filter do
 
   ## Examples
 
-    iex> Filter.lists([1, 2, %{}, {}, 1.2, 3.2, :atom, [1, 2], [4, 5, 6]])
-    # iex> Filter.lists([1, 2, %{}, {}, [], 1.2, 3.2, :atom, [1, 2], [4, 5, 6]])
-    [[1, 2], [4, 5, 6]]
+    iex> Filter.lists([1, 2, %{}, {}, [], 1.2, 3.2, :atom, [1, 2], [4, 5, 6]])
+    [[], [1, 2], [4, 5, 6]]
   """
   def lists(list) do
     Enum.filter(list, &is_list(&1))
@@ -148,7 +147,7 @@ defmodule Filter do
   end
 
   @doc """
-  Filter in keyword lists and empty lists in list.
+  Filter in keyword lists.
 
   ## Examples
 
@@ -223,6 +222,6 @@ If you are interested in joining the next academy cohort, [sign up here](https:/
 
 ## Up Next
 
-| Previous                                               | Next                                           |
+| Previous                                               |                                           Next |
 | ------------------------------------------------------ | ---------------------------------------------: |
 | [Built-In Modules](../reading/built-in_modules.livemd) | [Tic-tac-toe](../exercises/tic-tac-toe.livemd) |

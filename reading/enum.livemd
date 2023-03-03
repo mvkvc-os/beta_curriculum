@@ -24,10 +24,10 @@ Ensure you type the `ea` keyboard shortcut to evaluate all Elixir cells before s
 
 Upon completing this lesson, a student should be able to answer the following questions.
 
-* When and why might we use enumeration in programming?
-* How do we transform every element in an enumerable?
-* How do we remove elements from an enumerable?
-* How do we use every element in an enumerable to build an acculumator and return a transformed value?
+- When and why might we use enumeration in programming?
+- How do we transform every element in an enumerable?
+- How do we remove elements from an enumerable?
+- How do we use every element in an enumerable to build an acculumator and return a transformed value?
 
 ## Overview
 
@@ -85,7 +85,7 @@ Many collections are enumerable, but not all of them. For example, a tuple is no
 
 [Enum.map/2](https://hexdocs.pm/elixir/Enum.html#map/2), [Enum.filter/2](https://hexdocs.pm/elixir/Enum.html#filter/2), and [Enum.reduce/2](https://hexdocs.pm/elixir/Enum.html#reduce/2) are the most common functions for enumeration. By understanding these functions and when to use them, you'll be able to solve most enumeration problems.
 
-* [Enum.map/2](https://hexdocs.pm/elixir/Enum.html#map/2) returns the same number of elements with a transformation applied to each.
+- [Enum.map/2](https://hexdocs.pm/elixir/Enum.html#map/2) returns the same number of elements with a transformation applied to each.
 
 <!-- livebook:{"break_markdown":true} -->
 
@@ -109,7 +109,7 @@ end
 Enum.map(1..3, fn el -> el * 2 end)
 ```
 
-* [Enum.filter/2](https://hexdocs.pm/elixir/Enum.html#filter/2) removes element(s) from an enumerable without transforming them.
+- [Enum.filter/2](https://hexdocs.pm/elixir/Enum.html#filter/2) removes element(s) from an enumerable without transforming them.
 
 <!-- livebook:{"break_markdown":true} -->
 
@@ -133,7 +133,7 @@ end
 Enum.filter(1..3, fn el -> el <= 2 end)
 ```
 
-* [Enum.reduce/2](https://hexdocs.pm/elixir/Enum.html#reduce/2) uses the elements in an enumerable to build an accumulated value and return a transformed data structure.
+- [Enum.reduce/2](https://hexdocs.pm/elixir/Enum.html#reduce/2) uses the elements in an enumerable to build an accumulated value and return a transformed data structure.
 
 ```mermaid
 flowchart
@@ -235,9 +235,9 @@ Elixir provides the [Enum](https://hexdocs.pm/elixir/Enum.html) to accomplish en
 
 Most enumeration problems can be solved with the following [Enum](https://hexdocs.pm/elixir/Enum.html) functions.
 
-* [Enum.map/2](https://hexdocs.pm/elixir/Enum.html#map/2) enumerate over every element and create a new collection with a new value.
-* [Enum.reduce/2](https://hexdocs.pm/elixir/Enum.html#reduce/2) and [Enum.reduce/3](https://hexdocs.pm/elixir/Enum.html#reduce/3). Enumerate over every element into an accumulated value.
-* [Enum.filter/2](https://hexdocs.pm/elixir/Enum.html#filter/2) filter out elements from a collection.
+- [Enum.map/2](https://hexdocs.pm/elixir/Enum.html#map/2) enumerate over every element and create a new collection with a new value.
+- [Enum.reduce/2](https://hexdocs.pm/elixir/Enum.html#reduce/2) and [Enum.reduce/3](https://hexdocs.pm/elixir/Enum.html#reduce/3). Enumerate over every element into an accumulated value.
+- [Enum.filter/2](https://hexdocs.pm/elixir/Enum.html#filter/2) filter out elements from a collection.
 
 <!-- livebook:{"break_markdown":true} -->
 
@@ -284,11 +284,11 @@ end)
 
 The [Enum](https://hexdocs.pm/elixir/Enum.html) module also provides other useful functions. Here are a handful of the most used.
 
-* [Enum.all/2](https://hexdocs.pm/elixir/Enum.html#all/2) check if all elements in a collection match some condition.
-* [Enum.any?/2](https://hexdocs.pm/elixir/Enum.html#any?/2) check if any elements in a collection match some condition.
-* [Enum.count/2](https://hexdocs.pm/elixir/Enum.html#count/2) return the number of elements in a collection collection.
-* [Enum.find/3](https://hexdocs.pm/elixir/Enum.html#find/3) return an element in a collection that matches some condition.
-* [Enum.random/1](https://hexdocs.pm/elixir/Enum.html#random/1) return a random element in a collection.
+- [Enum.all/2](https://hexdocs.pm/elixir/Enum.html#all/2) check if all elements in a collection match some condition.
+- [Enum.any?/2](https://hexdocs.pm/elixir/Enum.html#any?/2) check if any elements in a collection match some condition.
+- [Enum.count/2](https://hexdocs.pm/elixir/Enum.html#count/2) return the number of elements in a collection collection.
+- [Enum.find/3](https://hexdocs.pm/elixir/Enum.html#find/3) return an element in a collection that matches some condition.
+- [Enum.random/1](https://hexdocs.pm/elixir/Enum.html#random/1) return a random element in a collection.
 
 Anytime we're working with a collection, we should refer to the [Enum](https://hexdocs.pm/elixir/Enum.html) module to see if it has a built-in solution we can use. Alternatively, we can build nearly all functionality using only [Enum.filter/2](https://hexdocs.pm/elixir/Enum.html#filter/2), [Enum.reduce/3](https://hexdocs.pm/elixir/Enum.html#reduce/3), and [Enum.map/2](https://hexdocs.pm/elixir/Enum.html#map/2) so consider developing the most familiarity with these three functions.
 
@@ -363,9 +363,10 @@ Use [Enum.map/2](https://hexdocs.pm/elixir/1.12/Enum.html#map/2) to convert a li
 <details style="background-color: lightgreen; padding: 1rem; margin: 1rem 0;">
   <summary>Example Solution</summary>
 
-  ```elixir
-  Enum.map(1..10, fn integer -> "#{integer}" end)
-  ```
+```elixir
+Enum.map(1..10, fn integer -> "#{integer}" end)
+```
+
 </details>
 
 Enter your solution below.
@@ -482,15 +483,16 @@ Use [Enum.reduce/3](https://hexdocs.pm/elixir/Enum.html#reduce/3) or [Enum.reduc
 <details style="background-color: lightgreen; padding: 1rem; margin: 1rem 0;">
   <summary>Example solution</summary>
 
-  ```elixir
-  Enum.reduce(1..10, 0, fn int, acc -> 
-    if rem(int, 2) == 0 do
-      acc + int
-      else
-      acc
-    end
-  end)
-  ```
+```elixir
+Enum.reduce(1..10, 0, fn int, acc ->
+  if rem(int, 2) == 0 do
+    acc + int
+    else
+    acc
+  end
+end)
+```
+
 </details>
 
 Enter your solution below.
@@ -569,8 +571,6 @@ For performance reasons, [Enum.all/2](https://hexdocs.pm/elixir/Enum.html#all/2)
 Notice the code below should finish very quickly because the very first element fails the condition.
 
 ```elixir
-to_find = 0
-
 Enum.all?(1..10_000_000, fn integer -> is_bitstring(integer) end)
 ```
 
@@ -579,8 +579,6 @@ If [Enum.all/2](https://hexdocs.pm/elixir/Enum.html#all/2) must traverse the ent
 Notice the code below should take awhile to finish running because every element passes the condition.
 
 ```elixir
-to_find = 0
-
 Enum.all?(1..10_000_000, fn integer -> is_integer(integer) end)
 ```
 
@@ -593,9 +591,9 @@ colors = [:green, :green, :red]
 Enum.all?(colors, fn x -> x == :green end)
 ```
 
-## Enum.any/2
+## Enum.any?/2
 
-[Enum.any/2](https://hexdocs.pm/elixir/Enum.html#any/2) checks if any elements in a collection pass some condition. If a single element returns a truthy value when called with the callback function, then [Enum.any/2](https://hexdocs.pm/elixir/Enum.html#any/2) returns `true`.
+[Enum.any?/2](https://hexdocs.pm/elixir/Enum.html#any/2) checks if any elements in a collection pass some condition. If a single element returns a truthy value when called with the callback function, then [Enum.any?/2](https://hexdocs.pm/elixir/Enum.html#any/2) returns `true`.
 
 <!-- livebook:{"break_markdown":true} -->
 
@@ -611,27 +609,23 @@ E --> Boolean
 Enum.any?([1, "2", "3"], fn element -> is_integer(element) end)
 ```
 
-[Enum.any/2](https://hexdocs.pm/elixir/Enum.html#any/2) returns as soon as an element in the collection returns a truthy value.
+[Enum.any?/2](https://hexdocs.pm/elixir/Enum.html#any/2) returns as soon as an element in the collection returns a truthy value.
 
 Notice the code below finishes very quickly, because the first element in the collection passes the condition.
 
 ```elixir
-to_find = 0
-
 Enum.any?(1..10_000_000, fn integer -> is_integer(integer) end)
 ```
 
 However, the following takes awhile to run because all elements in the collection fail the condition.
 
 ```elixir
-to_find = 0
-
 Enum.any?(1..10_000_000, fn integer -> is_bitstring(integer) end)
 ```
 
 ### Your Turn
 
-Use [Enum.any/2](https://hexdocs.pm/elixir/Enum.html#any/2) to determine if any of the animals in the `animals` list are `:dogs`. You may change the `animals` list to experiment with [Enum.any/2](https://hexdocs.pm/elixir/Enum.html#any/2).
+Use [Enum.any?/2](https://hexdocs.pm/elixir/Enum.html#any/2) to determine if any of the animals in the `animals` list are `:dogs`. You may change the `animals` list to experiment with [Enum.any?/2](https://hexdocs.pm/elixir/Enum.html#any/2).
 
 ```elixir
 animals = [:cats, :dogs, :bears, :lions, :penguins]
@@ -764,8 +758,8 @@ The [Enum](https://hexdocs.pm/elixir/Enum.html) module has many more functions. 
 
 For more information, you may also wish to read:
 
-* [The Enum Documentation](https://hexdocs.pm/elixir/Enum.html)
-* [Elixir Schools Enum](https://elixirschool.com/en/lessons/basics/enum)
+- [The Enum Documentation](https://hexdocs.pm/elixir/Enum.html)
+- [Elixir Schools Enum](https://elixirschool.com/en/lessons/basics/enum)
 
 We have several exercises dedicated to the [Enum](https://hexdocs.pm/elixir/Enum.html) module as part of this curriculum. However, if you wish for more practice [Exercism.io](https://exercism.org/tracks/elixir/concepts/enum) has a number of excellent exercises.
 
@@ -831,6 +825,6 @@ If you are interested in joining the next academy cohort, [sign up here](https:/
 
 ## Up Next
 
-| Previous                           | Next                                     |
+| Previous                           |                                     Next |
 | ---------------------------------- | ---------------------------------------: |
 | [Ranges](../reading/ranges.livemd) | [FizzBuzz](../exercises/fizzbuzz.livemd) |
