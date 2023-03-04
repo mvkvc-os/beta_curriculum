@@ -1,3 +1,5 @@
+<!-- livebook:{"persist_outputs":true} -->
+
 # Enums
 
 ## References
@@ -165,9 +167,21 @@ map = %{a: 1, b: 2, c: 3}
 Enum.filter(map, fn {_key, value} -> value > 1 end)
 ```
 
+<!-- livebook:{"output":true} -->
+
+```
+[b: 2, c: 3]
+```
+
 ```elixir
 mapset = MapSet.new([1, :two, {"three"}])
 Enum.filter(map, fn {_key, value} -> value != 1 end)
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+[b: 2, c: 3]
 ```
 
 Now let's create our own data types called `TwoDArray`.
@@ -183,8 +197,20 @@ defmodule TwoDArray do
 end
 ```
 
+<!-- livebook:{"output":true} -->
+
+```
+{:module, TwoDArray, <<70, 79, 82, 49, 0, 0, 10, ...>>, {:new, 1}}
+```
+
 ```elixir
 twodarray = TwoDArray.new([[1, 2], [3, 4]])
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+%TwoDArray{data: [[1, 2], [3, 4]], shape: [2, 2]}
 ```
 
 We can see that using Enum module functions with our TwoDArray struct fails:
@@ -200,6 +226,23 @@ defimpl Enumerable, for: TwoDArray do
 end
 
 Enum.map(twodarray, &(&1 + 1))
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+warning: function count/1 required by protocol Enumerable is not implemented (in module Enumerable.TwoDArray)
+  /home/mvkvc/dev/dockyard_academy/scratch/enum.livemd#cell:6bixtrnu5tw7qpwvj3nza2co7bkdmrtt:1: Enumerable.TwoDArray (module)
+
+warning: function member?/2 required by protocol Enumerable is not implemented (in module Enumerable.TwoDArray)
+  /home/mvkvc/dev/dockyard_academy/scratch/enum.livemd#cell:6bixtrnu5tw7qpwvj3nza2co7bkdmrtt:1: Enumerable.TwoDArray (module)
+
+warning: function reduce/3 required by protocol Enumerable is not implemented (in module Enumerable.TwoDArray)
+  /home/mvkvc/dev/dockyard_academy/scratch/enum.livemd#cell:6bixtrnu5tw7qpwvj3nza2co7bkdmrtt:1: Enumerable.TwoDArray (module)
+
+warning: function slice/1 required by protocol Enumerable is not implemented (in module Enumerable.TwoDArray)
+  /home/mvkvc/dev/dockyard_academy/scratch/enum.livemd#cell:6bixtrnu5tw7qpwvj3nza2co7bkdmrtt:1: Enumerable.TwoDArray (module)
+
 ```
 
 Our module still compiles but we get warnings because using functions from the Enum module will fail as the necessary implementation functions have not been created.
@@ -243,12 +286,30 @@ defimpl Enumerable, for: TwoDArray do
 end
 ```
 
+<!-- livebook:{"output":true} -->
+
+```
+{:module, Enumerable.TwoDArray, <<70, 79, 82, 49, 0, 0, 14, ...>>, {:flatten, 1}}
+```
+
 ```elixir
 x = [[1, 2], [3], [[4]]]
 ```
 
+<!-- livebook:{"output":true} -->
+
+```
+[[1, 2], [3], [[4]]]
+```
+
 ```elixir
 List.flatten(x)
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+[1, 2, 3, 4]
 ```
 
 Let's see if it worked!
@@ -257,16 +318,40 @@ Let's see if it worked!
 twodarray
 ```
 
+<!-- livebook:{"output":true} -->
+
+```
+%TwoDArray{data: [[1, 2], [3, 4]], shape: [2, 2]}
+```
+
 ```elixir
 Enum.filter(twodarray, &(&1 > 1))
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+[2, 3, 4]
 ```
 
 ```elixir
 Enum.map(twodarray, &(&1 + 1))
 ```
 
+<!-- livebook:{"output":true} -->
+
+```
+[2, 3, 4, 5]
+```
+
 ```elixir
 Enum.reduce(twodarray, 0, fn x, acc -> acc + x end)
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+10
 ```
 
 ## Bonus
@@ -287,10 +372,22 @@ defprotocol Size do
 end
 ```
 
+<!-- livebook:{"output":true} -->
+
+```
+{:module, Size, <<70, 79, 82, 49, 0, 0, 20, ...>>, {:__protocol__, 1}}
+```
+
 ```elixir
 defimpl Size, for: Any do
   def size(_), do: 0
 end
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+{:module, Size.Any, <<70, 79, 82, 49, 0, 0, 8, ...>>, {:size, 1}}
 ```
 
 ```elixir
@@ -299,12 +396,30 @@ defmodule OtherUser do
 end
 ```
 
+<!-- livebook:{"output":true} -->
+
+```
+{:module, OtherUser, <<70, 79, 82, 49, 0, 0, 8, ...>>, %OtherUser{name: nil, age: nil}}
+```
+
 ```elixir
 Size.size(OtherUser)
 ```
 
+<!-- livebook:{"output":true} -->
+
+```
+0
+```
+
 ```elixir
 Size.size(twodarray)
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+0
 ```
 
 ### Streams
@@ -317,14 +432,38 @@ Streams are collections that are lazily loaded (meaning elements are loaded one 
 Stream.map(twodarray, &(&1 + 1))
 ```
 
+<!-- livebook:{"output":true} -->
+
+```
+#Stream<[
+  enum: %TwoDArray{data: [[1, 2], [3, 4]], shape: [2, 2]},
+  funs: [#Function<48.124013645/1 in Stream.map/2>]
+]>
+```
+
 You can chain stream operations returning a new stream.
 
 ```elixir
 Stream.map(twodarray, &(&1 + 1)) |> Stream.filter(&(&1 > 2))
 ```
 
+<!-- livebook:{"output":true} -->
+
+```
+#Stream<[
+  enum: %TwoDArray{data: [[1, 2], [3, 4]], shape: [2, 2]},
+  funs: [#Function<48.124013645/1 in Stream.map/2>, #Function<40.124013645/1 in Stream.filter/2>]
+]>
+```
+
 When you want to output a non-lazy (fully in memory) Enumerable, all you need to do is pass the stream to any function in the Enum module ex. `Enum.to_list/1` or `Enum.take/2`.
 
 ```elixir
 Stream.map(twodarray, &(&1 + 1)) |> Stream.filter(&(&1 > 1)) |> Enum.take(3)
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+[2, 3, 4]
 ```
