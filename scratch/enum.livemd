@@ -216,7 +216,16 @@ twodarray = TwoDArray.new([[1, 2], [3, 4]])
 We can see that using Enum module functions with our TwoDArray struct fails:
 
 ```elixir
-Enum.map(twodarray, &(&1 + 1))
+try do
+  # raise "Oh no!"
+  Enum.map(twodarray, &(&1 + 1))
+rescue
+  e -> IO.puts("An error occurred: " <> e)
+end
+```
+
+```elixir
+
 ```
 
 What happens if we try to declare TwoDArray as an implementation without defining the necessary functions?
@@ -225,23 +234,15 @@ What happens if we try to declare TwoDArray as an implementation without definin
 defimpl Enumerable, for: TwoDArray do
 end
 
+case
 Enum.map(twodarray, &(&1 + 1))
 ```
 
 <!-- livebook:{"output":true} -->
 
 ```
-warning: function count/1 required by protocol Enumerable is not implemented (in module Enumerable.TwoDArray)
-  /home/mvkvc/dev/dockyard_academy/scratch/enum.livemd#cell:6bixtrnu5tw7qpwvj3nza2co7bkdmrtt:1: Enumerable.TwoDArray (module)
-
-warning: function member?/2 required by protocol Enumerable is not implemented (in module Enumerable.TwoDArray)
-  /home/mvkvc/dev/dockyard_academy/scratch/enum.livemd#cell:6bixtrnu5tw7qpwvj3nza2co7bkdmrtt:1: Enumerable.TwoDArray (module)
-
-warning: function reduce/3 required by protocol Enumerable is not implemented (in module Enumerable.TwoDArray)
-  /home/mvkvc/dev/dockyard_academy/scratch/enum.livemd#cell:6bixtrnu5tw7qpwvj3nza2co7bkdmrtt:1: Enumerable.TwoDArray (module)
-
-warning: function slice/1 required by protocol Enumerable is not implemented (in module Enumerable.TwoDArray)
-  /home/mvkvc/dev/dockyard_academy/scratch/enum.livemd#cell:6bixtrnu5tw7qpwvj3nza2co7bkdmrtt:1: Enumerable.TwoDArray (module)
+warning: variable "case" does not exist and is being expanded to "case()", please use parentheses to remove the ambiguity or change the variable name
+  /home/mvkvc/dev/dockyard_academy/scratch/enum.livemd#cell:6bixtrnu5tw7qpwvj3nza2co7bkdmrtt:4
 
 ```
 

@@ -1,4 +1,5 @@
 .elixir_ls/
 .history/
 .vscode/
+*.code-workspace
 /todo
