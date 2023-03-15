@@ -2,6 +2,6 @@ defmodule NavigationWeb.ProjectsController do
   use NavigationWeb, :controller
 
   def index(conn, params_) do
-    html(conn, "<h1>Projects</h1>")
+    render(conn, "index.html")
   end
 end
