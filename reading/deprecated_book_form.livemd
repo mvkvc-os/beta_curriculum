@@ -3,17 +3,17 @@
 ```elixir
 Mix.install([
   {:jason, "~> 1.4"},
-  {:kino, "~> 0.8.0", override: true},
+  {:kino, "~> 0.9", override: true},
   {:youtube, github: "brooklinjazz/youtube"},
   {:hidden_cell, github: "brooklinjazz/hidden_cell"},
-  {:ecto, "~> 3.9"}
+  {:ecto, "~> 3.9.5"}
 ])
 ```
 
 ## Navigation
 
 [Return Home](../start.livemd)<span style="padding: 0 30px"></span>
-[Report An Issue](https://github.com/DockYard-Academy/beta_curriculum/issues/new?assignees=&labels=&template=issue.md&title=)
+[Report An Issue](https://github.com/DockYard-Academy/curriculum/issues/new?assignees=&labels=&template=issue.md&title=)
 
 ## Setup
 
@@ -59,7 +59,7 @@ $ mix phx.server
 
 <!-- livebook:{"break_markdown":true} -->
 
-### Create the `BookForm` Form.
+### Create The `BookForm` Form.
 
 Replace the existing `index.html.heex` file with the following form content.
 

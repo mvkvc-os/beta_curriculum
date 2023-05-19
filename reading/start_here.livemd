@@ -3,7 +3,7 @@
 ```elixir
 Mix.install([
   {:jason, "~> 1.4"},
-  {:kino, "~> 0.8.0", override: true},
+  {:kino, "~> 0.9", override: true},
   {:youtube, github: "brooklinjazz/youtube"},
   {:hidden_cell, github: "brooklinjazz/hidden_cell"}
 ])
@@ -11,12 +11,24 @@ Mix.install([
 
 ## Navigation
 
-[Return Home](../start.livemd)<span style="padding: 0 30px"></span>
-[Report An Issue](https://github.com/DockYard-Academy/beta_curriculum/issues/new?assignees=&labels=&template=issue.md&title=)
-
-## Setup
-
-Ensure you type the `ea` keyboard shortcut to evaluate all Elixir cells before starting. Alternatively you can evaluate the Elixir cells as you read.
+<div style="display: flex; align-items: center; width: 100%; justify-content: space-between; font-size: 1rem; color: #61758a; background-color: #f0f5f9; height: 4rem; padding: 0 1rem; border-radius: 1rem;">
+<div style="display: flex;">
+<i class="ri-home-fill"></i>
+<a style="display: flex; color: #61758a; margin-left: 1rem;" href="../start.livemd">Home</a>
+</div>
+<div style="display: flex;">
+<i class="ri-bug-fill"></i>
+<a style="display: flex; color: #61758a; margin-left: 1rem;" href="https://github.com/DockYard-Academy/curriculum/issues/new?assignees=&labels=&template=issue.md&title=Start Here">Report An Issue</a>
+</div>
+<div style="display: flex;">
+<i style="display: none;" class="ri-arrow-left-fill"></i>
+<a style="display: flex; color: #61758a; margin-left: 1rem;" href=""></a>
+</div>
+<div style="display: flex;">
+<a style="display: flex; color: #61758a; margin-right: 1rem;" href="../reading/command_line.livemd">Command Line</a>
+<i class="ri-arrow-right-fill"></i>
+</div>
+</div>
 
 ## Welcome
 
@@ -54,9 +66,9 @@ DockYard Academy aims to provide students with practical, hands-on training to p
 9. Troubleshoot and solve problems that arise while building web applications and Elixir programs.
 10. Be able to find the resources needed to continue their learning journey after the course.
 
-## Lecture Schedule and Format
+## Lecture Schedule And Format
 
-For the full-time course, classes run Monday to Friday from 9:30 am to 3:00 pm (Pacific Time). Students will have a one-hour lunch break from noon to 1:00 pm (Pacific Time).
+For the full-time course, classes run Monday to Friday from 9:30 am to 3:00 pm (Pacific Time). Students will have a ten minute break at 10:30am PT and a one-hour lunch break from noon to 1:00 pm (Pacific Time).
 
 ## Meet Your Instructor
 
@@ -66,7 +78,7 @@ As a bootcamp graduate, I empathize with the struggle to enter the programming i
 
 In my classes, I aspire to create a low-stress environment for a high-stress activity. Learning can be difficult, but it's easier when you have a supportive group of mentors and peers surrounding you.
 
-## Taking the Course
+## Taking The Course
 
 Currently, there are two ways to take this course.
 
@@ -79,88 +91,53 @@ This curriculum was designed and developed as an instructor-led course. However,
 
 That said, learning on your own can be challenging. To increase your chances of success, we recommend finding a mentor or a study group with other self-led students.
 
-## Solutions Branch
+## Troubleshooting And Support
 
-We recommend you create a solutions branch to avoid making any commits on your `main` branch. This way, your `main` branch is clean if you want to contribute to DockYard Academy.
+It's common to find yourself blocked and needing help when learning new concepts. This can be especially challenging for a self-led learner. If you need support or encounter any issues with a lesson, there is a [Report An Issue](https://github.com/DockYard-Academy/curriculum/issues/new?assignees=&labels=&template=issue.md&title=) button you can use to get support.
 
-Instructions are included in the [Student Setup Guide](https://github.com/DockYard-Academy/curriculum/wiki/Student-Setup-Guide).
+In addition, students paying to be in a DockYard Academy cohort get direct access to a community of peers and mentors on the DockYard Academy Discord. Post on the `#questions-and-answers` channel whenever you need support.
 
-If you are unfamiliar with Git and GitHub, consider reading the [Lesson on Git](git.livemd) for an overview.
+## Setup Git And GitHub
 
-## Troubleshooting and Support
+If you have not already, we recommend you connect this project with Git and GitHub. After every lesson, we provide instructions in the **Commit Your Progress** section for how to commit your progress with Git and push your changes to GitHub.
 
-It's common to find yourself blocked and needing help when learning new concepts. This can be especially challenging for a self-led learner. If you need support or encounter any issues with a lesson, there is a [Report An Issue](https://github.com/DockYard-Academy/beta_curriculum/issues/new?assignees=&labels=&template=issue.md&title=) button you can use to get support.
-
-In addition, students in a DockYard Academy cohort (paid) get direct access to a community of peers and mentors on the DockYard Academy Discord. Post on the `#questions-and-answers` channel whenever you need support.
-
-## Post Lesson Breakdown
-
-There is a **Commit Your Progress** and a **Mark as Completed** section at the end of every lesson. We use these steps for tracking progress and receiving feedback from the instructors. These sections are primarily for active students rather than self-led learners.
-
-However, self-led students can complete these sections if they want to track their progress and get more practice using GitHub. We ask that you don't create pull requests to the DockYard Academy repo, as this spams our PR tracker. If you are not an academy student, we also ask that you refrain from @mentioning the instructor as this spams our notifications, and 1-1 feedback is only available to academy students.
-
-## Mark As Completed
-
-<!-- livebook:{"attrs":{"source":"file_name = Path.basename(Regex.replace(~r/#.+/, __ENV__.file, \"\"), \".livemd\")\n\nsave_name =\n  case Path.basename(__DIR__) do\n    \"reading\" -> \"start_here_reading\"\n    \"exercises\" -> \"start_here_exercise\"\n  end\n\nprogress_path = __DIR__ <> \"/../progress.json\"\nexisting_progress = File.read!(progress_path) |> Jason.decode!()\n\ndefault = Map.get(existing_progress, save_name, false)\n\nform =\n  Kino.Control.form(\n    [\n      completed: input = Kino.Input.checkbox(\"Mark As Completed\", default: default)\n    ],\n    report_changes: true\n  )\n\nTask.async(fn ->\n  for %{data: %{completed: completed}} <- Kino.Control.stream(form) do\n    File.write!(\n      progress_path,\n      Jason.encode!(Map.put(existing_progress, save_name, completed), pretty: true)\n    )\n  end\nend)\n\nform","title":"Track Your Progress"},"chunks":null,"kind":"Elixir.HiddenCell","livebook_object":"smart_cell"} -->
-
-```elixir
-file_name = Path.basename(Regex.replace(~r/#.+/, __ENV__.file, ""), ".livemd")
-
-save_name =
-  case Path.basename(__DIR__) do
-    "reading" -> "start_here_reading"
-    "exercises" -> "start_here_exercise"
-  end
-
-progress_path = __DIR__ <> "/../progress.json"
-existing_progress = File.read!(progress_path) |> Jason.decode!()
-
-default = Map.get(existing_progress, save_name, false)
-
-form =
-  Kino.Control.form(
-    [
-      completed: input = Kino.Input.checkbox("Mark As Completed", default: default)
-    ],
-    report_changes: true
-  )
-
-Task.async(fn ->
-  for %{data: %{completed: completed}} <- Kino.Control.stream(form) do
-    File.write!(
-      progress_path,
-      Jason.encode!(Map.put(existing_progress, save_name, completed), pretty: true)
-    )
-  end
-end)
-
-form
-```
+For example, once you are finished reading, you can follow the instructions below.
 
 ## Commit Your Progress
 
-Run the following in your command line from the curriculum folder to track and save your progress in a Git commit.
-Ensure that you do not already have undesired or unrelated changes by running `git status` or by checking the source control tab in Visual Studio Code.
+DockYard Academy now recommends you use the latest [Release](https://github.com/DockYard-Academy/curriculum/releases) rather than forking or cloning our repository.
+
+Run `git status` to ensure there are no undesirable changes.
+Then run the following in your command line from the `curriculum` folder to commit your progress.
 
 ```
-$ git checkout -b start-here-reading
 $ git add .
-$ git commit -m "finish start here reading"
-$ git push origin start-here-reading
+$ git commit -m "finish Start Here reading"
+$ git push
 ```
 
-Create a pull request from your `start-here-reading` branch to your `solutions` branch.
-Please do not create a pull request to the DockYard Academy repository as this will spam our PR tracker.
+We're proud to offer our open-source curriculum free of charge for anyone to learn from at their own pace.
 
-**DockYard Academy Students Only:**
+We also offer a paid course where you can learn from an instructor alongside a cohort of your peers.
+We will accept applications for the June-August 2023 cohort soon.
 
-Notify your instructor by including `@BrooklinJazz` in your PR description to get feedback.
-You (or your instructor) may merge your PR into your solutions branch after review.
+## Navigation
 
-If you are interested in joining the next academy cohort, [sign up here](https://academy.dockyard.com/) to receive more news when it is available.
-
-## Up Next
-
-| Previous | Next                                           |
-| -------- | ---------------------------------------------: |
-| -        | [Command Line](../reading/command_line.livemd) |
+<div style="display: flex; align-items: center; width: 100%; justify-content: space-between; font-size: 1rem; color: #61758a; background-color: #f0f5f9; height: 4rem; padding: 0 1rem; border-radius: 1rem;">
+<div style="display: flex;">
+<i class="ri-home-fill"></i>
+<a style="display: flex; color: #61758a; margin-left: 1rem;" href="../start.livemd">Home</a>
+</div>
+<div style="display: flex;">
+<i class="ri-bug-fill"></i>
+<a style="display: flex; color: #61758a; margin-left: 1rem;" href="https://github.com/DockYard-Academy/curriculum/issues/new?assignees=&labels=&template=issue.md&title=Start Here">Report An Issue</a>
+</div>
+<div style="display: flex;">
+<i style="display: none;" class="ri-arrow-left-fill"></i>
+<a style="display: flex; color: #61758a; margin-left: 1rem;" href=""></a>
+</div>
+<div style="display: flex;">
+<a style="display: flex; color: #61758a; margin-right: 1rem;" href="../reading/command_line.livemd">Command Line</a>
+<i class="ri-arrow-right-fill"></i>
+</div>
+</div>

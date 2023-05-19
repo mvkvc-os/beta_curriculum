@@ -3,7 +3,7 @@
 ```elixir
 Mix.install([
   {:jason, "~> 1.4"},
-  {:kino, "~> 0.8.0", override: true},
+  {:kino, "~> 0.9", override: true},
   {:youtube, github: "brooklinjazz/youtube"},
   {:hidden_cell, github: "brooklinjazz/hidden_cell"}
 ])
@@ -12,7 +12,7 @@ Mix.install([
 ## Navigation
 
 [Return Home](../start.livemd)<span style="padding: 0 30px"></span>
-[Report An Issue](https://github.com/DockYard-Academy/beta_curriculum/issues/new?assignees=&labels=&template=issue.md&title=)
+[Report An Issue](https://github.com/DockYard-Academy/curriculum/issues/new?assignees=&labels=&template=issue.md&title=)
 
 ## Create A New Mix Project
 
@@ -41,7 +41,7 @@ Add the following to your dependencies in `mix.exs`.
 
 Install dependencies with `mix deps.get`.
 
-## Generate the Repo
+## Generate The Repo
 
 Set up the Ecto configuration by running the following from the project folder.
 
@@ -88,7 +88,7 @@ Add the Repo to the applications supervision tree in `application.ex`.
 {TodoList.Repo, []}
 ```
 
-## Set Up the Database
+## Set Up The Database
 
 In the project folder, run the following from the command line.
 This will create the corresponding database for your application.
@@ -109,7 +109,7 @@ Here are some debugging tips to consider.
 * Ensure that the PostgreSQL service is running.
 * Ensure that your PostgreSQL username and password match.
 
-If you are stuck, you can speak with your instructor or classmates. You can also [raise an issue](https://github.com/DockYard-Academy/beta_curriculum/issues/new?assignees=&labels=&template=issue.md&title=)
+If you are stuck, you can speak with your instructor or classmates. You can also [raise an issue](https://github.com/DockYard-Academy/curriculum/issues/new?assignees=&labels=&template=issue.md&title=)
 on the DockYard Academy github with an explanation of your error.
 
 ## Todo List
